@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect } from 'react';
+import { createContext, useReducer, useEffect } from 'react';
 import { type Board, type Card } from '../types';
 import { generateId } from '../lib/utils';
 
@@ -212,15 +212,4 @@ export const BoardsProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useBoards = () => {
-  const ctx = useContext(BoardsContext);
-  if (!ctx) throw new Error('useBoards must be used within BoardsProvider');
-  return ctx;
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useBoardById = (id: string) => {
-  const { boards } = useBoards();
-  return boards.find(b => b.id === id);
-};
+export { BoardsContext };

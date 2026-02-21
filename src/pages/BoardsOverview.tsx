@@ -1,8 +1,8 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Sun, Moon, Brain, Layers, Upload } from 'lucide-react';
-import { useBoards } from '../store/boards';
-import { useTheme } from '../store/theme';
+import { useBoards } from '../store/useBoards';
+import { useTheme } from '../store/useTheme';
 import { type Board } from '../types';
 import BoardCard from '../components/BoardCard';
 import Modal from '../components/ui/Modal';

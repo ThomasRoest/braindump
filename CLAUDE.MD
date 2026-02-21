@@ -36,4 +36,4 @@ Single-page React app — infinite canvas brainstorm tool (Miro-like). Two scree
 - `lucide-react` for icons, no inline SVGs
 - `cn()` for conditional Tailwind classes (don't use it where there's no conditionality)
 - No JSX comments unless they add real context (not `{/* Header */}` style labels)
-- Store files mix Provider + hook exports — suppress the fast-refresh lint warning with `// eslint-disable-next-line react-refresh/only-export-components`
+- Do not randomly disable eslint warnings, there are there for a reason. Implement the correct fix.

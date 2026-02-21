@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
-import { useBoards } from '../store/boards';
-import { useTheme } from '../store/theme';
+import { useBoards } from '../store/useBoards';
+import { useTheme } from '../store/useTheme';
 import { type Card, type NoteCard, type TodoCard, type ImageCard } from '../types';
 import { generateId, debounce, randomItem } from '../lib/utils';
 import { CARD_COLORS } from '../lib/cardColors';
