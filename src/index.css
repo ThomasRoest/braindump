@@ -1,1 +1,52 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* Tell Tailwind v4 to use the .dark class instead of prefers-color-scheme */
+@variant dark (&:where(.dark, .dark *));
+
+* {
+  font-family: 'Outfit', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Canvas background with dot grid */
+.canvas-bg {
+  background-color: #ede9e3;
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.13) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+html.dark .canvas-bg {
+  background-color: #0e0e14;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Prevent text selection during drag */
+.select-none {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth dark mode transitions */
+html {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
