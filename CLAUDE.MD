@@ -1,0 +1,9 @@
+- use the front-end design skill if available
+- use tailwind merge cn utility for conditional styles, do not over use this if there’s no real reason to.
+- Do not add useless comments like ‘`{/* Header */}`. Only add comments if there is actual useful context.
+- use lucide-react icons for icons, no inline svg’s
+- use arrow functions, including for React components
+- Prefer creating smaller re-usable React components over massive single components.
+- where possible, identify re-usable components and extract them into separate components.
+- Common components like Buttons, Inputs should be re-usable and added to a components directory.
+- for darkmode, use tailwind :dark utility
