@@ -5,6 +5,7 @@ import { useBoards } from '../store/useBoards';
 import { useTheme } from '../store/useTheme';
 import { type Board } from '../types';
 import BoardCard from '../components/BoardCard';
+import { BoardSchema } from '../lib/boardSchema';
 import Modal from '../components/ui/Modal';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
@@ -39,9 +40,12 @@ const BoardsOverview = () => {
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const board = JSON.parse(reader.result as string) as Board;
-        if (!board.id || !board.name) throw new Error('Invalid board file');
-        setImportCandidate(board);
+        const result = BoardSchema.safeParse(JSON.parse(reader.result as string));
+        if (!result.success) {
+          console.error('Board import validation failed:', result.error.issues);
+          throw new Error('Invalid board file');
+        }
+        setImportCandidate(result.data as Board);
       } catch {
         alert('Failed to parse board file. Make sure it is a valid braindump JSON export.');
       }
