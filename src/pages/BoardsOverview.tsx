@@ -45,7 +45,7 @@ const BoardsOverview = () => {
           console.error('Board import validation failed:', result.error.issues);
           throw new Error('Invalid board file');
         }
-        setImportCandidate(result.data as Board);
+        setImportCandidate(result.data);
       } catch {
         alert('Failed to parse board file. Make sure it is a valid braindump JSON export.');
       }

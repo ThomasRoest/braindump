@@ -29,6 +29,8 @@ Single-page React app — infinite canvas brainstorm tool (Miro-like). Two scree
 
 **TypeScript:** `verbatimModuleSyntax` is enabled — always use `import type` for type-only imports.
 
+**Types & validation:** `src/lib/boardSchema.ts` is the single source of truth — all TypeScript types are derived from Zod schemas via `z.infer<typeof ...>`. Never define types manually in `src/types/index.ts`; that file only re-exports from `boardSchema.ts`. When adding a new card type or field, update the schema in `boardSchema.ts` and the TypeScript type updates automatically. The `BoardSchema` is used to validate JSON on import (`BoardSchema.safeParse(...)`) — do not use `as Board` casts.
+
 ## Code style
 
 - Arrow functions for everything including React components

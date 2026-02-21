@@ -53,3 +53,14 @@ export const BoardSchema = z.object({
   viewScale: z.number(),
   color: z.string(),
 });
+
+// Derived TypeScript types — schemas are the single source of truth
+export type CardColor = z.infer<typeof CardColorSchema>;
+export type CardType = z.infer<typeof CardSchema>['type'];
+export type TodoItem = z.infer<typeof TodoItemSchema>;
+export type BaseCard = z.infer<typeof BaseCardSchema>;
+export type NoteCard = z.infer<typeof NoteCardSchema>;
+export type TodoCard = z.infer<typeof TodoCardSchema>;
+export type ImageCard = z.infer<typeof ImageCardSchema>;
+export type Card = z.infer<typeof CardSchema>;
+export type Board = z.infer<typeof BoardSchema>;
