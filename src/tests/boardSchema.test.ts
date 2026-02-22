@@ -76,6 +76,14 @@ describe('CardSchema', () => {
     });
   });
 
+  test('defaults title to empty string when omitted', () => {
+    const card = { ...baseCard, type: 'note', content: 'Hello' };
+    const result = CardSchema.safeParse(card);
+    expect(result.success).toBe(true);
+    if (!result.success) return;
+    expect(result.data.title).toBe('');
+  });
+
   test('rejects unknown card type', () => {
     const card = { ...baseCard, type: 'unknown', content: 'x' };
     expect(CardSchema.safeParse(card).success).toBe(false);

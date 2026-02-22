@@ -73,6 +73,7 @@ const CanvasPage = () => {
       width: 240,
       height: 160,
       color: randomItem(CARD_COLORS),
+      title: '',
       content: '',
       zIndex: getMaxZIndex() + 1,
     };
@@ -106,6 +107,7 @@ const CanvasPage = () => {
       width: 300,
       height: 220,
       color: randomItem(CARD_COLORS),
+      title: '',
       src: '',
       caption: '',
       zIndex: getMaxZIndex() + 1,

@@ -10,6 +10,7 @@ const BaseCardSchema = z.object({
   height: z.number(),
   color: CardColorSchema,
   zIndex: z.number(),
+  title: z.string().default(''),
 });
 
 const NoteCardSchema = BaseCardSchema.extend({
@@ -25,7 +26,6 @@ const TodoItemSchema = z.object({
 
 const TodoCardSchema = BaseCardSchema.extend({
   type: z.literal('todo'),
-  title: z.string(),
   items: z.array(TodoItemSchema),
 });
 
