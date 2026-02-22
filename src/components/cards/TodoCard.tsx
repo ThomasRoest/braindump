@@ -45,22 +45,12 @@ const TodoCard = ({ card, onUpdate }: TodoCardProps) => {
 
   return (
     <div className={cn('h-full flex flex-col', colors.bg)}>
-      <div className={cn('px-3 py-2.5 border-b flex items-center gap-2', colors.border, colors.headerBg)}>
-        <input
-          className={cn('flex-1 bg-transparent font-semibold text-sm outline-none', colors.text)}
-          value={card.title}
-          onChange={e => onUpdate({ title: e.target.value })}
-          placeholder="List title..."
-          onMouseDown={e => e.stopPropagation()}
-        />
-        {card.items.length > 0 && (
-          <span className={cn('text-xs opacity-50 flex-shrink-0', colors.text)}>
-            {doneCount}/{card.items.length}
-          </span>
-        )}
-      </div>
-
       <div className="flex-1 overflow-y-auto p-2 space-y-1">
+        {card.items.length > 0 && (
+          <div className={cn('text-xs opacity-50 text-right px-1', colors.text)}>
+            {doneCount}/{card.items.length}
+          </div>
+        )}
         {card.items.map(item => (
           <div key={item.id} className="flex items-center gap-2 group rounded-md px-1 py-0.5 hover:bg-black/5 dark:hover:bg-white/5">
             <button

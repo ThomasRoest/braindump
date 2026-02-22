@@ -3,6 +3,7 @@ import { GripVertical, X, Palette } from 'lucide-react';
 import { type Card, type CardColor } from '../../types';
 import { cn } from '../../lib/utils';
 import { cardColorStyles, COLOR_DOT_CLASSES, CARD_COLORS } from '../../lib/cardColors';
+import ConfirmDialog from '../ui/ConfirmDialog';
 
 interface CardWrapperProps {
   card: Card;
@@ -16,6 +17,7 @@ interface CardWrapperProps {
 
 const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, children }: CardWrapperProps) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const colors = cardColorStyles[card.color];
 
   const dragStartRef = useRef<{ mouseX: number; mouseY: number; cardX: number; cardY: number } | null>(null);
@@ -115,7 +117,13 @@ const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, ch
         onMouseDown={handleDragStart}
       >
         <GripVertical size={13} className={cn(colors.text, 'opacity-30')} />
-        <div className="flex-1" />
+        <input
+          className={cn('flex-1 bg-transparent text-xs font-medium outline-none truncate', colors.text, 'placeholder:opacity-40')}
+          value={card.title}
+          onChange={e => onUpdate({ title: e.target.value })}
+          placeholder="Untitled..."
+          onMouseDown={e => e.stopPropagation()}
+        />
 
         <div className="relative" onMouseDown={e => e.stopPropagation()}>
           <button
@@ -146,13 +154,9 @@ const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, ch
         </div>
 
         <button
-          onClick={e => { e.stopPropagation(); onDelete(); }}
+          onClick={e => { e.stopPropagation(); setShowDeleteConfirm(true); }}
           onMouseDown={e => e.stopPropagation()}
-          className={cn(
-            'p-1 rounded hover:bg-red-500/20 hover:text-red-500 transition-colors',
-            colors.text,
-            'opacity-50 hover:opacity-100'
-          )}
+          className={cn('p-1 rounded hover:bg-red-500/20 hover:text-red-500 transition-colors opacity-50 hover:opacity-100', colors.text)}
         >
           <X size={12} />
         </button>
@@ -177,6 +181,14 @@ const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, ch
           <path d="M0 8L8 0M3 8L8 3M6 8L8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete card"
+        message="This card will be permanently deleted."
+        onConfirm={onDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 };

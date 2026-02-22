@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Trash2, StickyNote, CheckSquare, ImageIcon, Check, X } from 'lucide-react';
+import { useState } from 'react';
+import { Trash2, StickyNote, CheckSquare, ImageIcon } from 'lucide-react';
 import { type Board } from '../types';
 import { cn } from '../lib/utils';
 import { formatDate } from '../lib/utils';
+import ConfirmDialog from './ui/ConfirmDialog';
 
 interface BoardCardProps {
   board: Board;
@@ -17,22 +18,7 @@ const TYPE_ICONS = {
 };
 
 const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
-  const [confirming, setConfirming] = useState(false);
-
-  useEffect(() => {
-    if (!confirming) return;
-    const t = setTimeout(() => setConfirming(false), 3000);
-    return () => clearTimeout(t);
-  }, [confirming]);
-
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (confirming) {
-      onDelete();
-    } else {
-      setConfirming(true);
-    }
-  };
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const cardTypeCounts = board.cards.reduce(
     (acc, card) => {
@@ -82,36 +68,13 @@ const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
           style={{ backgroundColor: board.color }}
         />
 
-        <div className={cn(
-          'absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-150',
-          confirming && 'opacity-100'
-        )}>
-          {confirming ? (
-            <>
-              <span className="text-[10px] font-medium text-red-500 bg-white/90 dark:bg-neutral-800/90 backdrop-blur-sm px-1.5 py-0.5 rounded-md shadow-sm">
-                Delete?
-              </span>
-              <button
-                onClick={handleDeleteClick}
-                className="w-6 h-6 flex items-center justify-center rounded-md bg-red-500 text-white shadow-sm hover:bg-red-600 transition-colors"
-              >
-                <Check size={11} />
-              </button>
-              <button
-                onClick={e => { e.stopPropagation(); setConfirming(false); }}
-                className="w-6 h-6 flex items-center justify-center rounded-md bg-white/90 dark:bg-neutral-800/90 text-neutral-500 backdrop-blur-sm shadow-sm hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors"
-              >
-                <X size={11} />
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={handleDeleteClick}
-              className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 dark:bg-neutral-800/80 text-neutral-400 hover:text-red-500 transition-all duration-150 backdrop-blur-sm shadow-sm"
-            >
-              <Trash2 size={13} />
-            </button>
-          )}
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-150">
+          <button
+            onClick={e => { e.stopPropagation(); setShowDeleteConfirm(true); }}
+            className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 dark:bg-neutral-800/80 text-neutral-400 hover:text-red-500 transition-all duration-150 backdrop-blur-sm shadow-sm"
+          >
+            <Trash2 size={13} />
+          </button>
         </div>
       </div>
 
@@ -147,6 +110,14 @@ const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
           <span className="text-[10px] text-neutral-400">{formatDate(board.updatedAt)}</span>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete board"
+        message={`"${board.name || 'Untitled Board'}" and all its cards will be permanently deleted.`}
+        onConfirm={onDelete}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
@@ -27,8 +28,8 @@ const Modal = ({ isOpen, onClose, title, children, className }: ModalProps) => {
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={e => e.stopPropagation()}>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div
         className={cn(
@@ -47,7 +48,8 @@ const Modal = ({ isOpen, onClose, title, children, className }: ModalProps) => {
         </div>
         {children}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
