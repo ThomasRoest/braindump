@@ -8,10 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev        # start dev server
 npm run build      # type-check + production build (tsc -b && vite build)
 npm run lint       # run ESLint
+npm test           # run tests (vitest)
 npx tsc -b         # type-check only (faster than full build)
 ```
 
-There are no tests.
+**Always run `npm test` after making changes.** Tests must pass before considering a task complete.
+
+**Note:** The sandbox environment (Docker/Linux) cannot run `npm test` — native binaries (esbuild, rollup) are platform-specific and incompatible with the host macOS machine's `node_modules`. The user runs `npm test` locally to verify changes.
 
 ## Architecture
 
