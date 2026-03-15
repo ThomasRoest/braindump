@@ -6,7 +6,6 @@ interface DockItem {
   label: string;
   onClick: () => void;
   color: string;
-  shortcut: string;
 }
 
 interface CanvasDockProps {
@@ -22,21 +21,18 @@ const CanvasDock = ({ onAddNote, onAddTodo, onAddImage }: CanvasDockProps) => {
       label: 'Note',
       onClick: onAddNote,
       color: 'hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-950/50 dark:hover:text-amber-400',
-      shortcut: 'N',
     },
     {
       icon: <CheckSquare size={20} />,
       label: 'Todo',
       onClick: onAddTodo,
       color: 'hover:bg-sky-50 hover:text-sky-600 dark:hover:bg-sky-950/50 dark:hover:text-sky-400',
-      shortcut: 'T',
     },
     {
       icon: <ImageIcon size={20} />,
       label: 'Image',
       onClick: onAddImage,
       color: 'hover:bg-violet-50 hover:text-violet-600 dark:hover:bg-violet-950/50 dark:hover:text-violet-400',
-      shortcut: 'I',
     },
   ];
 
@@ -47,7 +43,7 @@ const CanvasDock = ({ onAddNote, onAddTodo, onAddImage }: CanvasDockProps) => {
           <div key={item.label} className="flex items-stretch">
             <button
               onClick={item.onClick}
-              title={`${item.label} (${item.shortcut})`}
+              title={item.label}
               className={cn(
                 'flex flex-col items-center justify-center gap-1.5 px-5 py-3 rounded-xl transition-all duration-150 text-neutral-500 dark:text-neutral-400 active:scale-95 group',
                 item.color

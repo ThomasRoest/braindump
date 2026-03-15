@@ -36,17 +36,6 @@ const CanvasPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === 'n' || e.key === 'N') handleAddNote();
-      if (e.key === 't' || e.key === 'T') handleAddTodo();
-      if (e.key === 'i' || e.key === 'I') handleAddImage();
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view]);
 
   if (!board) return <Navigate to="/" />;
 
