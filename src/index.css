@@ -99,3 +99,8 @@ html {
 .dark .note-card-editor .rsw-ce a {
   color: #60a5fa;
 }
+
+.note-card-editor .rsw-ce ul {
+  list-style: disc;
+  padding-left: 1.5em;
+}

@@ -3,11 +3,9 @@ import {
   EditorProvider,
   Toolbar,
   BtnBold,
-  BtnItalic,
   BtnUnderline,
   BtnStrikeThrough,
   BtnBulletList,
-  BtnNumberedList,
   BtnUndo,
   BtnRedo,
   BtnClearFormatting,
@@ -84,11 +82,9 @@ const NoteCard = ({ card, onUpdate }: NoteCardProps) => {
             <BtnRedo />
             <Separator />
             <BtnBold />
-            <BtnItalic />
-            <BtnUnderline />
+<BtnUnderline />
             <BtnStrikeThrough />
             <Separator />
-            <BtnNumberedList />
             <BtnBulletList />
             <Separator />
             <BtnLink />

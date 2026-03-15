@@ -69,7 +69,7 @@ const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, ch
       const dx = (e.clientX - resizeStartRef.current.mouseX) / scale;
       const dy = (e.clientY - resizeStartRef.current.mouseY) / scale;
       onUpdate({
-        width: Math.max(160, resizeStartRef.current.width + dx),
+        width: Math.max(300, resizeStartRef.current.width + dx),
         height: Math.max(100, resizeStartRef.current.height + dy),
       });
     };
@@ -101,7 +101,7 @@ const CardWrapper = ({ card, scale, isSelected, onUpdate, onDelete, onSelect, ch
         position: 'absolute',
         left: card.x,
         top: card.y,
-        width: card.width,
+        width: Math.max(300, card.width),
         height: card.height + 32,
         zIndex: card.zIndex,
       }}
