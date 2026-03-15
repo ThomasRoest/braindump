@@ -100,6 +100,10 @@ html {
   color: #60a5fa;
 }
 
+.note-card-editor.mod-key-held .rsw-ce a {
+  cursor: pointer;
+}
+
 .note-card-editor .rsw-ce ul {
   list-style: disc;
   padding-left: 1.5em;

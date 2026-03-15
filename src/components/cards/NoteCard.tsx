@@ -16,6 +16,7 @@ import type { MouseEvent } from 'react';
 import { type NoteCard as NoteCardType } from '../../types';
 import { cn } from '../../lib/utils';
 import { cardColorStyles } from '../../lib/cardColors';
+import useModKeyHeld from '../../hooks/useModKeyHeld';
 
 const handleEditorClick = (e: MouseEvent) => {
   if (!(e.metaKey || e.ctrlKey)) return;
@@ -64,10 +65,11 @@ interface NoteCardProps {
 
 const NoteCard = ({ card, onUpdate }: NoteCardProps) => {
   const colors = cardColorStyles[card.color];
+  const modKeyHeld = useModKeyHeld();
 
   return (
     <div
-      className={cn('h-full flex flex-col note-card-editor', colors.bg, colors.text)}
+      className={cn('h-full flex flex-col note-card-editor', colors.bg, colors.text, modKeyHeld && 'mod-key-held')}
       onMouseDown={e => e.stopPropagation()}
       onClick={handleEditorClick}
     >
