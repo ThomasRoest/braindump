@@ -1,14 +1,26 @@
-import { useState } from 'react';
-import { Trash2, StickyNote, CheckSquare, ImageIcon } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Trash2, StickyNote, CheckSquare, ImageIcon, Palette } from 'lucide-react';
 import { type Board } from '../types';
 import { cn } from '../lib/utils';
 import { formatDate } from '../lib/utils';
 import ConfirmDialog from './ui/ConfirmDialog';
 
+const BOARD_COLORS = [
+  '#6366f1',
+  '#ec4899',
+  '#f59e0b',
+  '#10b981',
+  '#3b82f6',
+  '#ef4444',
+  '#8b5cf6',
+  '#14b8a6',
+];
+
 interface BoardCardProps {
   board: Board;
   onClick: () => void;
   onDelete: () => void;
+  onColorChange: (color: string) => void;
 }
 
 const TYPE_ICONS = {
@@ -17,8 +29,21 @@ const TYPE_ICONS = {
   image: ImageIcon,
 };
 
-const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
+const BoardCard = ({ board, onClick, onDelete, onColorChange }: BoardCardProps) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!showColorPicker) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (colorPickerRef.current && !colorPickerRef.current.contains(e.target as Node)) {
+        setShowColorPicker(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showColorPicker]);
 
   const cardTypeCounts = board.cards.reduce(
     (acc, card) => {
@@ -31,10 +56,10 @@ const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-800 overflow-hidden cursor-pointer hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
+      className="group relative bg-white dark:bg-neutral-900 rounded-2xl border border-neutral-100 dark:border-neutral-800 cursor-pointer hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
     >
       <div
-        className="h-36 flex items-center justify-center relative overflow-hidden"
+        className="h-36 flex items-center justify-center relative overflow-hidden rounded-t-2xl"
         style={{ backgroundColor: `${board.color}18` }}
       >
         <div className="relative w-full h-full flex items-center justify-center">
@@ -68,14 +93,39 @@ const BoardCard = ({ board, onClick, onDelete }: BoardCardProps) => {
           style={{ backgroundColor: board.color }}
         />
 
-        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-all duration-150">
+      </div>
+
+      <div className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-all duration-150 flex gap-1">
+        <div className="relative" ref={colorPickerRef}>
           <button
-            onClick={e => { e.stopPropagation(); setShowDeleteConfirm(true); }}
-            className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 dark:bg-neutral-800/80 text-neutral-400 hover:text-red-500 transition-all duration-150 backdrop-blur-sm shadow-sm"
+            onClick={e => { e.stopPropagation(); setShowColorPicker(prev => !prev); }}
+            className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 dark:bg-neutral-800/80 text-neutral-400 hover:text-indigo-500 transition-all duration-150 backdrop-blur-sm shadow-sm"
           >
-            <Trash2 size={13} />
+            <Palette size={13} />
           </button>
+          {showColorPicker && (
+            <div className="absolute top-full right-0 mt-1 p-2 w-[132px] bg-white dark:bg-neutral-800 rounded-xl shadow-lg border border-neutral-200 dark:border-neutral-700 z-10 grid grid-cols-4 gap-1.5">
+              {BOARD_COLORS.map(color => (
+                <button
+                  key={color}
+                  onClick={e => { e.stopPropagation(); onColorChange(color); setShowColorPicker(false); }}
+                  className="w-6 h-6 rounded-full transition-transform hover:scale-110"
+                  style={{
+                    backgroundColor: color,
+                    outline: board.color === color ? `2px solid ${color}` : 'none',
+                    outlineOffset: '2px',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
+        <button
+          onClick={e => { e.stopPropagation(); setShowDeleteConfirm(true); }}
+          className="w-7 h-7 flex items-center justify-center rounded-lg bg-white/80 dark:bg-neutral-800/80 text-neutral-400 hover:text-red-500 transition-all duration-150 backdrop-blur-sm shadow-sm"
+        >
+          <Trash2 size={13} />
+        </button>
       </div>
 
       <div className="p-4">

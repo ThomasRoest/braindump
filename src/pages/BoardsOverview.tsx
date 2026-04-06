@@ -23,7 +23,7 @@ const BOARD_COLORS = [
 
 const BoardsOverview = () => {
   const navigate = useNavigate();
-  const { boards, createBoard, deleteBoard, importBoard } = useBoards();
+  const { boards, createBoard, deleteBoard, importBoard, updateBoard } = useBoards();
   const { isDark, toggleTheme } = useTheme();
 
   const [isCreating, setIsCreating] = useState(false);
@@ -160,6 +160,7 @@ const BoardsOverview = () => {
                   board={board}
                   onClick={() => navigate(`/board/${board.id}`)}
                   onDelete={() => deleteBoard(board.id)}
+                  onColorChange={color => updateBoard(board.id, { color })}
                 />
               ))}
             </div>
